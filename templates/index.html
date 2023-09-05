@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSCode Prompt</title>
+</head>
+<body>
+    <input type="text" id="prompt" placeholder="Type a prompt">
+    <button onclick="checkForCode()">Submit</button>
+
+    <div id="vscode" style="display:none;">
+        <!-- Embed VSCode or provide a link to open it -->
+        <p>VSCode would appear here.</p>
+    </div>
+
+    <script>
+        async function checkForCode() {
+            const promptValue = document.getElementById('prompt').value;
+            const response = await fetch('/check_prompt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: promptValue })
+            });
+            const data = await response.json();
+            if (data.show_vscode) {
+                document.getElementById('vscode').style.display = 'block';
+            } else {
+                document.getElementById('vscode').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
